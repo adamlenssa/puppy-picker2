@@ -9,3 +9,35 @@ export const dogSchema = z.object({
 });
 
 export type Dog = z.infer<typeof dogSchema>;
+
+export type TActiveTab = "favorited" | "unfavorited" | "form" | "all";
+export type TGlobalContext = {
+  allDogs: Dog[];
+  setAllDogs: React.Dispatch<
+    React.SetStateAction<
+      {
+        id: number;
+        name: string;
+        image: string;
+        description: string;
+        isFavorite: boolean;
+      }[]
+    >
+  >;
+  activeTab: TActiveTab;
+  setActiveTab: React.Dispatch<React.SetStateAction<TActiveTab>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  favoritedDogs: Dog[];
+  unfavoritedDogs: Dog[];
+  getAllDogs: () => Promise<void>;
+  updateDog: (dog: Dog) => void;
+  deleteDog: (dog: Dog) => void;
+};
+
+export type NewDog = {
+  name: string;
+  image: string;
+  description: string;
+  isFavorite: boolean;
+};
