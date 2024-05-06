@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { useGlobalContext } from "./ThemeContext";
+import { useGlobalContext } from "./GlobalContext";
 import { TActiveTab } from "../types";
 
 export const Section = ({

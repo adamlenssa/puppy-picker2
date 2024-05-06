@@ -1,7 +1,7 @@
 import { CreateDogForm } from "./Components/CreateDogForm";
 import { Dogs } from "./Components/Dogs";
 import { Section } from "./Components/Section";
-import { useGlobalContext } from "./Components/ThemeContext";
+import { useGlobalContext } from "./Components/GlobalContext";
 
 export function App() {
   const { activeTab } = useGlobalContext();

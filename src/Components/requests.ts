@@ -11,9 +11,7 @@ export const Requests = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(information),
-    })
-      .then((response) => response.json())
-      .catch((error) => console.error(error)),
+    }),
   // should delete a dog from the database
   deleteDog: (dog: Dog) =>
     fetch(`http://localhost:3000/dogs/${dog.id}`, {

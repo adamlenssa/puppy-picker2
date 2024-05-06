@@ -31,8 +31,10 @@ export type TGlobalContext = {
   favoritedDogs: Dog[];
   unfavoritedDogs: Dog[];
   getAllDogs: () => Promise<void>;
-  updateDog: (dog: Dog) => void;
+  updateDogFavorite: (dog: Dog) => void;
+  updateDogUnfavorite: (dog: Dog) => void;
   deleteDog: (dog: Dog) => void;
+  addNewDog: (newDog: NewDog) => void;
 };
 
 export type NewDog = {

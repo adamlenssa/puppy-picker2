@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Dog, TActiveTab, TGlobalContext } from "../types";
+import { Dog, NewDog, TActiveTab, TGlobalContext } from "../types";
 import { Requests } from "./requests";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -34,25 +34,55 @@ function GlobalContextProvider({ children }: { children: ReactNode }) {
       });
   };
 
-  const updateDog = (dog: Dog) => {
-    setIsLoading(true);
-    Requests.updateDog(dog)
-      .then(() => getAllDogs())
-      .then(() => toast.success("Success"))
-      .catch((err) => {
-        toast.error("error occured");
-        console.error(err);
-      })
-      .finally(() => setIsLoading(false));
+  const updateDogFavorite = (dog: Dog) => {
+    setAllDogs(
+      allDogs.map((oldDog) =>
+        oldDog.id == dog.id ? { ...dog, isFavorite: true } : oldDog
+      )
+    );
+    Requests.updateDog(dog).then((response) => {
+      if (!response.ok) {
+        setAllDogs(allDogs);
+      } else return;
+    });
+  };
+
+  const updateDogUnfavorite = (dog: Dog) => {
+    setAllDogs(
+      allDogs.map((oldDog) =>
+        oldDog.id == dog.id ? { ...dog, isFavorite: false } : oldDog
+      )
+    );
+    Requests.updateDog(dog).then((response) => {
+      if (!response.ok) {
+        setAllDogs(allDogs);
+      } else return;
+    });
   };
 
   const deleteDog = (dog: Dog) => {
-    setIsLoading(true);
-    Requests.deleteDog(dog)
-      .then(() => getAllDogs())
-      .then(() => toast.success(`Bye ${dog.name}`))
-      .finally(() => setIsLoading(false));
+    setAllDogs(allDogs.filter((oldDog) => oldDog !== dog));
+    Requests.deleteDog(dog).then((response) => {
+      if (!response.ok) {
+        setAllDogs(allDogs);
+      } else return;
+    });
   };
+
+  const addNewDog = (newDog: NewDog) => {
+    const newStateAddition = { ...newDog, id: allDogs.length };
+    setAllDogs(allDogs.concat(newStateAddition));
+    Requests.postDog(newDog).then((response) => {
+      if (!response.ok) {
+        setAllDogs(allDogs);
+        toast.error("error occcured");
+      } else {
+        toast.success(`Welcome to the Family ${newDog.name}`);
+        console.log(response);
+      }
+    });
+  };
+
   useEffect(() => {
     getAllDogs();
   }, []);
@@ -68,8 +98,10 @@ function GlobalContextProvider({ children }: { children: ReactNode }) {
         favoritedDogs,
         unfavoritedDogs,
         getAllDogs,
-        updateDog,
+        updateDogFavorite,
+        updateDogUnfavorite,
         deleteDog,
+        addNewDog,
       }}
     >
       <Toaster />
@@ -77,5 +109,6 @@ function GlobalContextProvider({ children }: { children: ReactNode }) {
     </GlobalContext.Provider>
   );
 }
+// eslint-disable-next-line react-refresh/only-export-components
 export const useGlobalContext = () => useContext(GlobalContext);
 export default GlobalContextProvider;

@@ -1,7 +1,7 @@
 // Right now these dogs are constant, but in reality we should be getting these from our server
 
 import { DogCard } from "./DogCard";
-import { useGlobalContext } from "./ThemeContext";
+import { useGlobalContext } from "./GlobalContext";
 
 // Todo: Refactor to get rid of props (THERE SHOULD BE NO PROPS DRILLING ON THIS COMPONENT)
 export const Dogs = () =>
@@ -11,7 +11,8 @@ export const Dogs = () =>
       activeTab,
       allDogs,
       deleteDog,
-      updateDog,
+      updateDogFavorite,
+      updateDogUnfavorite,
       isLoading,
       favoritedDogs,
       unfavoritedDogs,
@@ -28,10 +29,10 @@ export const Dogs = () =>
                 deleteDog(dog);
               }}
               onEmptyHeartClick={() => {
-                updateDog(dog);
+                updateDogFavorite(dog);
               }}
               onHeartClick={() => {
-                updateDog(dog);
+                updateDogUnfavorite(dog);
               }}
               isLoading={isLoading}
               key={dog.id}
@@ -45,10 +46,10 @@ export const Dogs = () =>
                 deleteDog(dog);
               }}
               onEmptyHeartClick={() => {
-                updateDog(dog);
+                updateDogFavorite(dog);
               }}
               onHeartClick={() => {
-                updateDog(dog);
+                updateDogUnfavorite(dog);
               }}
               isLoading={isLoading}
               key={dog.id}
@@ -62,10 +63,10 @@ export const Dogs = () =>
                 deleteDog(dog);
               }}
               onEmptyHeartClick={() => {
-                updateDog(dog);
+                updateDogFavorite(dog);
               }}
               onHeartClick={() => {
-                updateDog(dog);
+                updateDogUnfavorite(dog);
               }}
               isLoading={isLoading}
               key={dog.id}

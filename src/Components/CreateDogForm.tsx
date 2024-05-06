@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { dogPictures } from "../dog-pictures";
 import { NewDog } from "../types";
-import { useGlobalContext } from "./ThemeContext";
-import { Requests } from "./requests";
-import toast from "react-hot-toast";
+import { useGlobalContext } from "./GlobalContext";
 
 export const CreateDogForm = () =>
   // no props allowed
@@ -14,28 +12,20 @@ export const CreateDogForm = () =>
       description: "",
       isFavorite: false,
     });
-    const { setIsLoading, getAllDogs } = useGlobalContext();
+    const { addNewDog } = useGlobalContext();
     return (
       <form
         action=""
         id="create-dog-form"
         onSubmit={(e) => {
           e.preventDefault();
-          setIsLoading(true);
-          Requests.postDog(newDog)
-            .then(() => {
-              getAllDogs();
-              setNewDog({
-                name: "",
-                image: "/assets/blue-heeler.png",
-                description: "",
-                isFavorite: false,
-              });
-              toast.success("Thank you for creating a dog!!");
-            })
-            .finally(() => {
-              setIsLoading(false);
-            });
+          addNewDog(newDog);
+          setNewDog({
+            name: "",
+            image: "/assets/blue-heeler.png",
+            description: "",
+            isFavorite: false,
+          });
         }}
       >
         <h4>Create a New Dog</h4>

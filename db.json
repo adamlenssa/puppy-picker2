@@ -11,14 +11,14 @@
       "name": "Eva",
       "image": "/assets/boxer.png",
       "description": "Cotton withdrawal bifurcated Southeast lime",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 1
     },
     {
       "name": "Joaquin",
       "image": "/assets/blue-heeler.png",
       "description": "Joanny systematic West capacitor Unbranded Account toothpaste Triathlon/Time",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 2
     },
     {
@@ -134,18 +134,11 @@
       "id": 18
     },
     {
-      "name": "Reggie",
-      "image": "/assets/boxer.png",
-      "description": "mmm green Wisconsin below Forward",
-      "isFavorite": false,
+      "name": "LONGLY",
+      "image": "/assets/chihuahua.avif",
+      "description": "Very energetic dog!!",
+      "isFavorite": true,
       "id": 19
-    },
-    {
-      "name": "Adam",
-      "image": "/assets/blue-heeler.png",
-      "description": "Lenssa",
-      "isFavorite": false,
-      "id": 20
     }
   ]
 }
