@@ -1,4 +1,4 @@
-import { Dog } from "../types";
+import { Dog } from "./types";
 
 export const baseUrl = "http://localhost:3000";
 export const Requests = {
@@ -11,11 +11,21 @@ export const Requests = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(information),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Couldn't update dog`);
+      }
+      return response;
     }),
   // should delete a dog from the database
   deleteDog: (dog: Dog) =>
     fetch(`http://localhost:3000/dogs/${dog.id}`, {
       method: "DELETE",
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Couldn't update dog`);
+      }
+      return response;
     }),
   updateDog: (dog: Dog) => {
     const body = dog.isFavorite ? { isFavorite: false } : { isFavorite: true };
@@ -23,6 +33,11 @@ export const Requests = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Couldn't update dog`);
+      }
+      return response;
     });
   },
 };

@@ -31,10 +31,10 @@ export type TGlobalContext = {
   favoritedDogs: Dog[];
   unfavoritedDogs: Dog[];
   getAllDogs: () => Promise<void>;
-  updateDogFavorite: (dog: Dog) => void;
-  updateDogUnfavorite: (dog: Dog) => void;
-  deleteDog: (dog: Dog) => void;
-  addNewDog: (newDog: NewDog) => void;
+  updateDogFavorite: (dog: Dog) => Promise<void>;
+  updateDogUnfavorite: (dog: Dog) => Promise<void>;
+  deleteDog: (dog: Dog) => Promise<void>;
+  addNewDog: (newDog: NewDog) => Promise<void>;
 };
 
 export type NewDog = {

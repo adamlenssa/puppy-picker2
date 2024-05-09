@@ -12,19 +12,20 @@ export const CreateDogForm = () =>
       description: "",
       isFavorite: false,
     });
-    const { addNewDog } = useGlobalContext();
+    const { addNewDog, isLoading } = useGlobalContext();
     return (
       <form
         action=""
         id="create-dog-form"
         onSubmit={(e) => {
           e.preventDefault();
-          addNewDog(newDog);
-          setNewDog({
-            name: "",
-            image: "/assets/blue-heeler.png",
-            description: "",
-            isFavorite: false,
+          addNewDog(newDog).then(() => {
+            setNewDog({
+              name: "",
+              image: "/assets/blue-heeler.png",
+              description: "",
+              isFavorite: false,
+            });
           });
         }}
       >
@@ -36,6 +37,7 @@ export const CreateDogForm = () =>
             setNewDog({ ...newDog, name: e.target.value });
           }}
           value={newDog.name}
+          disabled={isLoading}
         />
         <label htmlFor="description">Dog Description</label>
         <textarea
@@ -47,6 +49,7 @@ export const CreateDogForm = () =>
             setNewDog({ ...newDog, description: e.target.value });
           }}
           value={newDog.description}
+          disabled={isLoading}
         ></textarea>
         <label htmlFor="picture">Select an Image</label>
         <select
@@ -54,6 +57,7 @@ export const CreateDogForm = () =>
           onChange={(e) => {
             setNewDog({ ...newDog, image: e.target.value });
           }}
+          disabled={isLoading}
         >
           {Object.entries(dogPictures).map(([label, pictureValue]) => {
             return (
@@ -63,7 +67,7 @@ export const CreateDogForm = () =>
             );
           })}
         </select>
-        <input type="submit" value="submit" />
+        <input type="submit" value="submit" disabled={isLoading} />
       </form>
     );
   };

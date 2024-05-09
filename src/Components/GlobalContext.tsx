@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { Dog, NewDog, TActiveTab, TGlobalContext } from "../types";
-import { Requests } from "./requests";
+import { Requests } from "../requests";
 import toast, { Toaster } from "react-hot-toast";
 
 export const GlobalContext = createContext<TGlobalContext>(
@@ -34,53 +34,57 @@ function GlobalContextProvider({ children }: { children: ReactNode }) {
       });
   };
 
-  const updateDogFavorite = (dog: Dog) => {
+  const updateDogFavorite = async (dog: Dog) => {
     setAllDogs(
       allDogs.map((oldDog) =>
         oldDog.id == dog.id ? { ...dog, isFavorite: true } : oldDog
       )
     );
-    Requests.updateDog(dog).then((response) => {
-      if (!response.ok) {
+    await Requests.updateDog(dog)
+      .then(() => toast.success(`We love you ${dog.name}`))
+      .catch((err) => {
         setAllDogs(allDogs);
-      } else return;
-    });
+        toast.error(err.message);
+      });
   };
 
-  const updateDogUnfavorite = (dog: Dog) => {
+  const updateDogUnfavorite = async (dog: Dog) => {
     setAllDogs(
       allDogs.map((oldDog) =>
         oldDog.id == dog.id ? { ...dog, isFavorite: false } : oldDog
       )
     );
-    Requests.updateDog(dog).then((response) => {
-      if (!response.ok) {
+    await Requests.updateDog(dog)
+      .then(() => toast.success(`Go fuck yourself ${dog.name}`))
+      .catch((err) => {
         setAllDogs(allDogs);
-      } else return;
-    });
+        toast.error(err.message);
+      });
   };
 
-  const deleteDog = (dog: Dog) => {
+  const deleteDog = async (dog: Dog) => {
     setAllDogs(allDogs.filter((oldDog) => oldDog !== dog));
-    Requests.deleteDog(dog).then((response) => {
-      if (!response.ok) {
+    await Requests.deleteDog(dog)
+      .then(() => {
+        toast.success(`Bye bye ${dog.name}`);
+      })
+      .catch(() => {
         setAllDogs(allDogs);
-      } else return;
-    });
+        toast.error(`Couldn't delete ${dog.name}`);
+      });
   };
 
-  const addNewDog = (newDog: NewDog) => {
-    const newStateAddition = { ...newDog, id: allDogs.length };
-    setAllDogs(allDogs.concat(newStateAddition));
-    Requests.postDog(newDog).then((response) => {
-      if (!response.ok) {
-        setAllDogs(allDogs);
-        toast.error("error occcured");
-      } else {
-        toast.success(`Welcome to the Family ${newDog.name}`);
-        console.log(response);
-      }
-    });
+  const addNewDog = async (newDog: NewDog) => {
+    setIsLoading(true);
+    await Requests.postDog(newDog)
+      .then(() => {
+        getAllDogs();
+        toast.success("Welcome to the family" + newDog.name);
+      })
+      .catch(() => toast.error("Error Occured"))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
